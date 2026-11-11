@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Firefly.Environment;
 using Firefly.Light;
+using Firefly.Player;
+using Firefly.Audio;
 
 namespace Firefly.Core
 {
@@ -107,9 +109,23 @@ namespace Firefly.Core
             if (player != null)
             {
                 playerLightEnergy = player.GetComponent<LightEnergy>();
+                PlayerController controller = player.GetComponent<PlayerController>();
+
                 if (playerLightEnergy != null)
                 {
                     playerLightEnergy.OnEnergyDepleted += HandlePlayerDeath;
+                    playerLightEnergy.OnDamaged += (dmg) =>
+                    {
+                        if (CameraFollow2D.Instance != null)
+                        {
+                            CameraFollow2D.Instance.TriggerShake(0.2f, 0.22f);
+                        }
+                    };
+                }
+
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.BindPlayer(controller, playerLightEnergy);
                 }
             }
         }
