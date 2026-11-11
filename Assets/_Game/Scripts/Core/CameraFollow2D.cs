@@ -11,6 +11,12 @@ namespace Firefly.Core
     {
         public static CameraFollow2D Instance { get; private set; }
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatics()
+        {
+            Instance = null;
+        }
+
         [Header("Target & Tracking")]
         [Tooltip("Target transform to follow. If null, automatically locates the GameObject tagged 'Player'.")]
         [SerializeField] private Transform target;

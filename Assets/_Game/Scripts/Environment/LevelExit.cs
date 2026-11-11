@@ -33,6 +33,13 @@ namespace Firefly.Environment
         public static event Action OnPortalUnlocked;
         public static event Action OnPortalEntered;
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatics()
+        {
+            OnPortalUnlocked = null;
+            OnPortalEntered = null;
+        }
+
         private void Awake()
         {
             exitCollider = GetComponent<Collider2D>();

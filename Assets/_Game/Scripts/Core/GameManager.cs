@@ -35,6 +35,13 @@ namespace Firefly.Core
 
         public static event Action<GameState> OnGameStateChanged;
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatics()
+        {
+            Instance = null;
+            OnGameStateChanged = null;
+        }
+
         private void Awake()
         {
             if (Instance != null && Instance != this)

@@ -19,6 +19,12 @@ namespace Firefly.Core
     {
         public static LevelManager Instance { get; private set; }
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatics()
+        {
+            Instance = null;
+        }
+
         [Header("Level Information")]
         [SerializeField] private int levelNumber = 1;
         [SerializeField] private string levelTitle = "Nivel 1 - Cueva Umbría";

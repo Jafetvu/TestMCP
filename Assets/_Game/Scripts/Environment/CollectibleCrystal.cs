@@ -34,6 +34,12 @@ namespace Firefly.Environment
 
         public static event Action<CollectibleCrystal> OnAnyCrystalCollected;
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatics()
+        {
+            OnAnyCrystalCollected = null;
+        }
+
         private void Awake()
         {
             if (spriteRenderer == null)

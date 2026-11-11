@@ -240,7 +240,7 @@ namespace Firefly.Player
 
         private void ApplyVisualHover()
         {
-            if (visualTransform == null) return;
+            if (visualTransform == null || visualTransform == transform) return;
             bobTimer += Time.deltaTime * 6f;
             visualTransform.localPosition = visualBaseLocalPos + new Vector3(0f, Mathf.Sin(bobTimer) * 0.05f, 0f);
         }
