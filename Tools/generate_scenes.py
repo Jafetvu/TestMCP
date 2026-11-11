@@ -556,7 +556,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   spriteRenderer: {{fileID: {p_sr}}}
-  visualTransform: {{fileID: {p_tr}}}
+  visualTransform: {{fileID: 0}}
 --- !u!114 &{p_lgt_en}
 MonoBehaviour:
   m_ObjectHideFlags: 0

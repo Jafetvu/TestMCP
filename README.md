@@ -31,7 +31,7 @@ El jugador encarna a una pequeña luciérnaga atrapada en profundas cavernas en 
 | **Pausa / Reanudar** | <kbd>Escape</kbd> | <kbd>P</kbd> | Botón Start / Menu |
 | **Reintentar Nivel (Game Over)** | <kbd>R</kbd> | <kbd>Enter</kbd> / <kbd>Espacio</kbd> | Botón Sur |
 
-> **Nota sobre el aleteo:** La luciérnaga cuenta con un salto inicial terrestre más **hasta 2 impulsos de aleteo en el aire** antes de requerir posarse nuevamente sobre una plataforma, complementado con amortiguación de caída al sostener la tecla de salto.
+> **Nota sobre el aleteo:** La luciérnaga cuenta con un salto inicial terrestre más **hasta 3 impulsos de aleteo en el aire** antes de requerir posarse nuevamente sobre una plataforma, complementado con amortiguación de caída al sostener la tecla de salto.
 
 ---
 

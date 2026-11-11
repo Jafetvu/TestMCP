@@ -107,6 +107,12 @@ namespace Firefly.Environment
             }
         }
 
+        // Stay is also checked so the exit works if the player is already inside when it unlocks.
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            OnTriggerEnter2D(other);
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!isUnlocked || isTriggered) return;

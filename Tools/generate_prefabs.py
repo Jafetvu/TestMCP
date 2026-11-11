@@ -197,7 +197,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   spriteRenderer: {{fileID: 100002}}
-  visualTransform: {{fileID: 100001}}
+  visualTransform: {{fileID: 0}}
 --- !u!114 &100006
 MonoBehaviour:
   m_ObjectHideFlags: 0

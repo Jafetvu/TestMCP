@@ -30,7 +30,6 @@ namespace Firefly.Core
 
         [Header("Transitions")]
         [SerializeField] private float completionDelay = 1.2f;
-        [SerializeField] private float gameOverDelay = 1.0f;
 
         // Events
         public event Action<int, int> OnCrystalCountChanged;
@@ -71,7 +70,7 @@ namespace Firefly.Core
             FindOrSpawnPlayer();
 
             // Find any crystals already in scene
-            CollectibleCrystal[] crystals = FindObjectsByType<CollectibleCrystal>(FindObjectsSortMode.None);
+            CollectibleCrystal[] crystals = FindObjectsByType<CollectibleCrystal>();
             foreach (var c in crystals)
             {
                 RegisterCrystal(c);

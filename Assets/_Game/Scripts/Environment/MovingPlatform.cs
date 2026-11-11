@@ -3,74 +3,72 @@ using UnityEngine;
 namespace Firefly.Environment
 {
     /// <summary>
-    /// Moving platform that oscillates between two positions,
-    /// carrying the player safely over chasms and hazards.
-    /// Follows the Single Responsibility Principle: handles kinematic platform movement and passenger attachment.
+    /// Kinematic platform that oscillates between its start position and an offset.
+    /// Exposes its current velocity so the player can ride it (see PlayerController).
+    /// Follows the Single Responsibility Principle: handles platform movement only.
     /// </summary>
     [RequireComponent(typeof(Collider2D))]
     public class MovingPlatform : MonoBehaviour
     {
         [Header("Movement Path")]
-        [Tooltip("Relative target offset from start position.")]
+        [Tooltip("Target offset relative to the start position.")]
         [SerializeField] private Vector2 moveOffset = new Vector2(4f, 0f);
 
-        [Tooltip("Speed of movement.")]
+        [Tooltip("Movement speed in units per second.")]
         [SerializeField] private float speed = 2.0f;
 
-        [Tooltip("Pause duration at each end in seconds.")]
+        [Tooltip("Pause duration at each end, in seconds.")]
         [SerializeField] private float waitTimeAtEnds = 0.5f;
 
-        private Vector3 startPos;
-        private Vector3 targetPos;
+        private Rigidbody2D rb;
+        private Vector2 startPos;
+        private Vector2 targetPos;
         private bool movingToTarget = true;
         private float waitTimer;
 
-        private void Start()
+        /// <summary>Current platform velocity in world units per second.</summary>
+        public Vector2 Velocity { get; private set; }
+
+        private void Awake()
         {
-            startPos = transform.position;
-            targetPos = startPos + (Vector3)moveOffset;
+            // A kinematic body gives correct collision response when the platform moves.
+            rb = GetComponent<Rigidbody2D>();
+            if (rb == null)
+                rb = gameObject.AddComponent<Rigidbody2D>();
+
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+            startPos = rb.position;
+            targetPos = startPos + moveOffset;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (waitTimer > 0f)
             {
-                waitTimer -= Time.deltaTime;
+                waitTimer -= Time.fixedDeltaTime;
+                Velocity = Vector2.zero;
                 return;
             }
 
-            Vector3 destination = movingToTarget ? targetPos : startPos;
-            transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
+            Vector2 destination = movingToTarget ? targetPos : startPos;
+            Vector2 next = Vector2.MoveTowards(rb.position, destination, speed * Time.fixedDeltaTime);
+            Velocity = (next - rb.position) / Time.fixedDeltaTime;
+            rb.MovePosition(next);
 
-            if (Vector3.Distance(transform.position, destination) < 0.01f)
+            if ((next - destination).sqrMagnitude < 0.0001f)
             {
                 movingToTarget = !movingToTarget;
                 waitTimer = waitTimeAtEnds;
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            // Parent the player so they ride the platform
-            if (collision.gameObject.CompareTag("Player") && collision.transform.position.y > transform.position.y)
-            {
-                collision.transform.SetParent(transform);
-            }
-        }
-
-        private void OnCollisionExit2D(Collision2D collision)
-        {
-            // Unparent when jumping off
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                collision.transform.SetParent(null);
-            }
-        }
-
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.cyan;
-            Vector3 origin = Application.isPlaying ? startPos : transform.position;
+            Vector3 origin = Application.isPlaying ? (Vector3)startPos : transform.position;
             Gizmos.DrawLine(origin, origin + (Vector3)moveOffset);
             Gizmos.DrawWireCube(origin + (Vector3)moveOffset, transform.localScale);
         }
