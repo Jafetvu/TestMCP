@@ -497,6 +497,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!50 &{p_rb}
 Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {{fileID: 0}}
   m_PrefabInstance: {{fileID: 0}}
