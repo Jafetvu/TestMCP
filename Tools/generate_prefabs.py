@@ -1,8 +1,13 @@
 import os
-import uuid
 
 prefabs_dir = r"C:\Users\Jafet_BaGo\Desktop\TestMCP\Assets\_Game\Prefabs"
 os.makedirs(prefabs_dir, exist_ok=True)
+
+GUID_SPR_FIREFLY = "abb5d5c5f9685b36961925c9f5bb7813"
+GUID_PLAYER_CONTROLLER = "899ab378b2fc53447bdabb190260b34e"
+GUID_LIGHT_ENERGY = "f241ae0220265fa1991479c438fa1a83"
+GUID_LIGHT2D = "073797afb82c5a1438f328866b10b3f0"
+GUID_PLAYER_PREFAB = "7e1289dfb6104f699042a173874be9e1"
 
 def write_prefab(name, content, guid):
     prefab_path = os.path.join(prefabs_dir, f"{name}.prefab")
@@ -24,11 +29,6 @@ PrefabImporter:
             f.write(meta_content)
     print(f"Generated prefab: {name}")
 
-# GUIDs
-GUID_SPR_FIREFLY = "abb5d5c5f9685b36961925c9f5bb7813"
-GUID_PLAYER_CONTROLLER = "899ab378b2fc53447bdabb190260b34e"
-GUID_PLAYER_PREFAB = "7e1289dfb6104f699042a173874be9e1"
-
 def create_player_prefab():
     yaml = f"""%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
@@ -45,6 +45,7 @@ GameObject:
   - component: {{fileID: 100003}}
   - component: {{fileID: 100004}}
   - component: {{fileID: 100005}}
+  - component: {{fileID: 100006}}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -66,6 +67,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {{fileID: 100011}}
+  - {{fileID: 100021}}
   m_Father: {{fileID: 0}}
   m_LocalEulerAnglesHint: {{x: 0, y: 0, z: 0}}
 --- !u!212 &100002
@@ -195,6 +197,33 @@ MonoBehaviour:
     m_Bits: 1
   spriteRenderer: {{fileID: 100002}}
   visualTransform: {{fileID: 100001}}
+--- !u!114 &100006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {{fileID: 0}}
+  m_PrefabInstance: {{fileID: 0}}
+  m_PrefabAsset: {{fileID: 0}}
+  m_GameObject: {{fileID: 100000}}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {{fileID: 11500000, guid: {GUID_LIGHT_ENERGY}, type: 3}}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxEnergy: 100
+  initialEnergy: 100
+  drainRatePerSecond: 4.5
+  criticalThreshold: 0.25
+  fireflyLight: {{fileID: 100022}}
+  maxOuterRadius: 6.5
+  minOuterRadius: 1.2
+  maxInnerRadius: 2.0
+  minInnerRadius: 0.3
+  baseIntensity: 1.1
+  fullEnergyColor: {{r: 1, g: 0.95, b: 0.65, a: 1}}
+  criticalEnergyColor: {{r: 0.95, g: 0.35, b: 0.2, a: 1}}
+  enableFlickerWhenLow: 1
+  flickerSpeed: 12
+  flickerAmplitude: 0.15
 --- !u!1 &100010
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,6 +255,80 @@ Transform:
   m_Children: []
   m_Father: {{fileID: 100001}}
   m_LocalEulerAnglesHint: {{x: 0, y: 0, z: 0}}
+--- !u!1 &100020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {{fileID: 0}}
+  m_PrefabInstance: {{fileID: 0}}
+  m_PrefabAsset: {{fileID: 0}}
+  serializedVersion: 6
+  m_Component:
+  - component: {{fileID: 100021}}
+  - component: {{fileID: 100022}}
+  m_Layer: 0
+  m_Name: FireflyLight2D
+  m_TagString: Untagged
+  m_Icon: {{fileID: 0}}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &100021
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {{fileID: 0}}
+  m_PrefabInstance: {{fileID: 0}}
+  m_PrefabAsset: {{fileID: 0}}
+  m_GameObject: {{fileID: 100020}}
+  serializedVersion: 2
+  m_LocalRotation: {{x: 0, y: 0, z: 0, w: 1}}
+  m_LocalPosition: {{x: 0, y: 0, z: 0}}
+  m_LocalScale: {{x: 1, y: 1, z: 1}}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {{fileID: 100001}}
+  m_LocalEulerAnglesHint: {{x: 0, y: 0, z: 0}}
+--- !u!114 &100022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {{fileID: 0}}
+  m_PrefabInstance: {{fileID: 0}}
+  m_PrefabAsset: {{fileID: 0}}
+  m_GameObject: {{fileID: 100020}}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {{fileID: 11500000, guid: {GUID_LIGHT2D}, type: 3}}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComponentVersion: 1
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {{r: 1, g: 0.95, b: 0.65, a: 1}}
+  m_Intensity: 1.1
+  m_LightVolumeIntensity: 1
+  m_LightVolumeIntensityEnabled: 0
+  m_ApplyToSortingLayers: 00000000
+  m_LightCookieSprite: {{fileID: 0}}
+  m_DeprecatedPointLightCookieSprite: {{fileID: 0}}
+  m_LightOrder: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowIntensityEnabled: 0
+  m_ShadowIntensity: 0.75
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {{x: 0, y: 0, z: 0}}
+    m_Extent: {{x: 6.5, y: 6.5, z: 0}}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 2.0
+  m_PointLightOuterRadius: 6.5
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
 """
     write_prefab("Player", yaml, GUID_PLAYER_PREFAB)
 
