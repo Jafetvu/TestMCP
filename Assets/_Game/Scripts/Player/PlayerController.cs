@@ -48,7 +48,7 @@ namespace Firefly.Player
         [Tooltip("Visual container to apply gentle wing flutter/bobbing.")]
         [SerializeField] private Transform visualTransform;
 
-        [Header("Audio Events / Hooks")]
+        // Audio Events / Hooks
         public event Action OnJump;
         public event Action OnFlutter;
         public event Action OnLand;

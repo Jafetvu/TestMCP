@@ -1,6 +1,7 @@
 fileFormatVersion: 2
 guid: 18aa773ff30b5a3aac30d273935ad8ed
 AudioImporter:
+  serializedVersion: 2
   defaultSetup:
     loadType: 0
     sampleRateSetting: 0
